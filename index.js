@@ -165,8 +165,6 @@ app.get('/movies/:title', (req, res) => {
   }
 });
 
-
-
 // Return data about a genre (description) by the name of the movie
 app.get('/movies/:title/genre', (req, res) => {
   let movie = movies.find((movie) => {
