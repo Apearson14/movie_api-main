@@ -183,7 +183,7 @@ app.get('/movies/:title/genre', (req, res) => {
 app.get('/movies/directors/:directorName', (req, res) => {
   const directorName = req.params.directorName;
 
-  const director = directors.find((director) => director.name === directorName);
+  const director = directors.find((director) => directors.name === directorName);
 
   if (!director) {
     const message = 'Director with the given name not found';
