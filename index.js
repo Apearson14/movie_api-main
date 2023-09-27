@@ -63,7 +63,7 @@ let movies =[
     "movieId": 8
   },
   {
-    "title": "Spirit",
+    "title": "Spirited",
     "director": "Sean Anders",
     "year": 2022,
     "genre": "Comedy/Holiday",
@@ -80,52 +80,52 @@ let movies =[
 
 let directors = [
   {
-    name: "Francis Ford Coppola",
-    bio: "Director of The Godfather",
-    birthYear: 1939,
-    deathYear: null, 
+    "name": "Francis Ford Coppola",
+    "bio": "Director of The Godfather",
+    "birthYear": 1939,
+    "deathYear": null, 
   },
   {
-    name: "Adam McKay",
-    bio: "Director of Step Brothers and The Big Short",
-    birthYear: 1968,
-    deathYear: null
+    "name": "Adam",
+    "bio": "Director of Step Brothers and The Big Short",
+    "birthYear": 1968,
+    "deathYear": null
   },
   {
-    name: "Shawn",
-    bio: "Director of Free Guy",
-    birthYear: 1968,
-    deathYear: null
+    "name": "Shawn",
+    "bio": "Director of Free Guy",
+    "birthYear": 1968,
+    "deathYear": null
   },
   {
-    name: "Jeremiah S. Chechik",
-    bio: "Director of National Lampoon's Christmas Vacation",
-    birthYear: 1955,
-    deathYear: null
+    "name": "Jeremiah S. Chechik",
+    "bio": "Director of National Lampoon's Christmas Vacation",
+    "birthYear": 1955,
+    "deathYear": null
   },
   {
-    name: "Martin Scorsese",
-    bio: "Director of The Wolf of Wall Street",
-    birthYear: 1942,
-    deathYear: null
+    "name": "Martin Scorsese",
+    "bio": "Director of The Wolf of Wall Street",
+    "birthYear": 1942,
+    "deathYear": null
   },
   {
-    name: "David Leitch",
-    bio: "Director of Deadpool 2 and Bullet Train",
-    birthYear: 1975,
-    deathYear: null
+    "name": "David Leitch",
+    "bio": "Director of Deadpool 2 and Bullet Train",
+    "birthYear": 1975,
+    "deathYear": null
   },
   {
-    name: "Sean Anders",
-    bio: "Director of Spirited",
-    birthYear: 1969,
-    deathYear: null
+    "name": "Sean Anders",
+    "bio": "Director of Spirited",
+    "birthYear": 1969,
+    "deathYear": null
   },
   {
-    name: "Robert Schwentke",
-    bio: "Director of R.I.P.D.",
-    birthYear: 1968,
-    deathYear: null
+    "name": "Robert Schwentke",
+    "bio": "Director of R.I.P.D.",
+    "birthYear": 1968,
+    "deathYear": null
   }
 ];
 
@@ -183,13 +183,13 @@ app.get('/movies/:title/genre', (req, res) => {
 app.get('/movies/directors/:directorName', (req, res) => {
   const directorName = req.params.directorName;
 
-  const director = directors.find(directors.name === directorName);
+  const director = directors.find((director) => directors.name === directorName);
 
   if (!director) {
     const message = 'Director with the given name not found';
     res.status(404).json({ error: message });
   } else {
-    res.status(200).json(director);
+    res.status(200).json(directors);
   }
 });
 
