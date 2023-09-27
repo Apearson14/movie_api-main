@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
+const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const uuid = require('uuid');
 
+app.use(bodyParser.json());
 app.use(morgan('combined'));
 
 let movies =[
@@ -92,7 +94,7 @@ let directors = [
     "deathYear": null
   },
   {
-    "name": "Shawn",
+    "name": "Shawn Levy",
     "bio": "Director of Free Guy",
     "birthYear": 1968,
     "deathYear": null
@@ -130,17 +132,17 @@ let directors = [
 ];
 
 
-// Example user array
+// User array
 let users = [
   {
-    id: 1,
-    name: "name1",
-    favMovies: ["movie01"],
+    "id": 1,
+    "name": "name1",
+    "favMovies": ["movie01"],
   },
   {
-    id: 2,
-    name: "name2",
-    favMovies: [],
+    "id": 2,
+    "name": "name2",
+    "favMovies": [],
   }
 ];
 
@@ -195,10 +197,10 @@ app.get('/movies/directors/:directorName', (req, res) => {
 
 
 // Allow new users to register
-app.post("/users",(req,res) =>{
+app.post("/users", (req, res) => {
   const newUser = req.body;
 
-  if(newUser.name) {
+  if (newUser.name) {
     newUser.id = uuid.v4();
     users.push(newUser);
     res.status(201).json(newUser);
@@ -206,6 +208,7 @@ app.post("/users",(req,res) =>{
     res.status(400).send("name?");
   }
 });
+
 
 // Allow users to update their user info (username)
 app.put('/users/:id',(req,res) => {
@@ -229,9 +232,19 @@ app.post('/users/:id/movies/:title', (req,res) => {
   let user = users.find((user)=> user.id == userId);
   let movie = movies.find((movie)=> movie.id == movieId);
 
-  if(movie){
-    return res.status(400).json({message: "Movie has been removed"});
+  if (!user || !movie) {
+    return res.status(404).json({ message: "User or movie not found" });
   }
+
+  // Check if the movie is already in the user's favorites
+  if (user.favMovies.includes(movie.title)) {
+    return res.status(400).json({ message: "Movie is already in favorites" });
+  }
+
+  // Add the movie to the user's favorites
+  user.favMovies.push(movie.title);
+
+  res.status(200).json({ message: "Movie added to favorites", user });
 });
 
 // Allow users to deregister (only showing text a user email has been removed)
