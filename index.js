@@ -86,7 +86,7 @@ let directors = [
     "deathYear": null, 
   },
   {
-    "name": "Adam",
+    "name": "Adam McKay",
     "bio": "Director of Step Brothers and The Big Short",
     "birthYear": 1968,
     "deathYear": null
