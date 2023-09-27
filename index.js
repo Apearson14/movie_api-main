@@ -224,28 +224,20 @@ app.put('/users/:id',(req,res) => {
 });
 
 // Allow users to add a movie to their list of favorites
-
 app.post('/users/:id/movies/:title', (req,res) => {
-  const { id, title } = req.params;
-  const { userId, movieId } = req.body;
+  const { id, title } = req.params; 
 
-  let user = users.find((user)=> user.id == userId);
-  let movie = movies.find((movie)=> movie.id == movieId);
+  let user = users.find((user)=> user.id == id);
+  let movie = movies.find((movie)=> movie.title === title); 
 
   if (!user || !movie) {
     return res.status(404).json({ message: "User or movie not found" });
+  } else {
+    user.favMovies.push(movie.title);
+    res.status(200).json({ message: "Movie added to favorites" }); 
   }
-
-  // Check if the movie is already in the user's favorites
-  if (user.favMovies.includes(movie.title)) {
-    return res.status(400).json({ message: "Movie is already in favorites" });
-  }
-
-  // Add the movie to the user's favorites
-  user.favMovies.push(movie.title);
-
-  res.status(200).json({ message: "Movie added to favorites", user });
 });
+
 
 // Allow users to deregister (only showing text a user email has been removed)
 
