@@ -63,7 +63,7 @@ let movies =[
     "movieId": 8
   },
   {
-    "title": "Spirited",
+    "title": "Spirit",
     "director": "Sean Anders",
     "year": 2022,
     "genre": "Comedy/Holiday",
