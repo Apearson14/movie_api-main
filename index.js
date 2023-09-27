@@ -182,17 +182,19 @@ app.get('/movies/:title/genre', (req, res) => {
 });
 
 // Return data about a director(bio, birth year, death year) by name
-app.get('/movies/directors/:directorName',(req,res) => {
-  res.json (directors.at.find( (director) =>
-    {director.name === req.params.directorName}));
+app.get('/movies/directors/:directorName', (req, res) => {
+  const directorName = req.params.directorName;
 
-    if(!directorName) {
-      const message = 'Missing directors name';
-      res.status(404).send(message);
-    } else {
-      res.status(200).json(movie.director)
-    }
-  });
+  const director = directors.find((director) => director.name === directorName);
+
+  if (!director) {
+    const message = 'Director with the given name not found';
+    res.status(404).json({ error: message });
+  } else {
+    res.status(200).json(director);
+  }
+});
+
 
 // Allow new users to register
 app.post("/users",(req,res) =>{
