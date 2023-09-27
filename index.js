@@ -92,7 +92,7 @@ let directors = [
     deathYear: null
   },
   {
-    name: "Shawn Levy",
+    name: "Shawn",
     bio: "Director of Free Guy",
     birthYear: 1968,
     deathYear: null
@@ -180,7 +180,7 @@ app.get('/movies/:title/genre', (req, res) => {
 });
 
 // Return data about a director(bio, birth year, death year) by name
-app.get('/directors/:directorName', (req, res) => {
+app.get('/movies/directors/:directorName', (req, res) => {
   const directorName = req.params.directorName;
 
   const director = directors.find((director) => director.name === directorName);
