@@ -271,7 +271,7 @@ app.delete('/users/:id/movies/:title', (req, res) => {
   if (movieIndex === -1) {
     return res.status(404).json({ message: "Movie not found in user's favorites" });
   }
-  
+
   user.favMovies.splice(movieIndex, 1);
 
   res.status(200).json({ message: "Movie removed from favorites" });
@@ -286,7 +286,7 @@ app.delete('/users/:id',(req,res) => {
 
   if(userIndex !== -1) {
     users.splice(userIndex, 1);
-    res.status(200).json({message: 'User has been removed'})
+    res.status(200).json({message: 'User email has been removed'})
   }
 });
 

@@ -123,7 +123,38 @@
           <td>/users/:id/movies/:title</td>
           <td>POST</td>
           <td>None</td>
-          <td>A JSON oh</td>
+          <td>A JSON object showing a message stating the move has been added Example:
+            <code>
+              {
+                "message": "Movie added to favorites."
+              }
+            </code>
+          </td>
+        </tr>
+        <tr>
+          <td>Allow users to remove movies from their favorite list</td>
+          <td>/users/:id/movies/:title</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>A JSON object that shows a message the movie has been removed. Example:
+            <code>
+              {
+                "message": "Movie removed from favorites."
+              }
+            </code>
+          </td>
+        </tr>
+        <tr>
+          <td>Allow users to deregister</td>
+          <td>/users/:id</td>
+          <td>DELETE</td>
+          <td>A JSON obeject that has a message. Example:
+            <code>
+              {
+                "message": "User email has been removed"
+              }
+            </code>
+          </td>
         </tr>
       </tbody>
     </table>
