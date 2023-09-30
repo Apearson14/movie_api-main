@@ -78,7 +78,26 @@ let movies =[
     "genre": "Comedy",
     "movieId": 10
   },
-]
+];
+
+let genres = [
+  {
+    "name": "Comedy",
+    "description": "Comedy is a genre of entertainment characterized by its focus on humor, laughter, and amusing situations, often using wit and satire to entertain and amuse audiences."
+  },
+  {
+    "name": "Holiday",
+    "description": "The holiday genre typically revolves around themes related to festive celebrations, family gatherings, and the spirit of various holidays, providing heartwarming and cheerful entertainment."
+  },
+  {
+    "name": "Action",
+    "description": "The action genre is known for its high-energy, thrilling, and often physically intense sequences, featuring heroic characters engaged in daring feats, combat, and adventurous pursuits."
+  },
+  {
+    "name": "Crime",
+    "description": "The crime genre delves into the world of criminal activities, investigations, and legal procedures, exploring the darker aspects of human behavior and often revolving around solving mysteries and catching wrongdoers."
+  }
+];
 
 let directors = [
   {
@@ -168,16 +187,15 @@ app.get('/movies/:title', (req, res) => {
 });
 
 // Return data about a genre (description) by the name of the movie
-app.get('/movies/:title/genre', (req, res) => {
-  let movie = movies.find((movie) => {
-    return movie.title === req.params.title;
-  });
+app.get('/movies/genres/:name', (req, res) => {
+ 
+  const genreName = genres.find((genreName) => genreName.name === req.params.name);
 
-  if (!movie) {
-    const message = 'Movie with the given title not found';
+  if (!genreName) {
+    const message = 'Genre with this given title is not found';
     res.status(404).send(message);
   } else {
-    res.status(200).send(movie.genre);
+    res.status(200).json(genreName);
   }
 });
 
@@ -238,6 +256,27 @@ app.post('/users/:id/movies/:title', (req,res) => {
   }
 });
 
+// Remove a movie from the favorites list of a single user
+
+app.delete('/users/:id/movies/:title', (req, res) => {
+  const userId = req.params.id;
+  const movieTitle = req.params.title;
+  const user = users.find((user) => user.id == userId);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  const movieIndex = user.favMovies.indexOf(movieTitle);
+
+  if (movieIndex === -1) {
+    return res.status(404).json({ message: "Movie not found in user's favorites" });
+  }
+  
+  user.favMovies.splice(movieIndex, 1);
+
+  res.status(200).json({ message: "Movie removed from favorites" });
+});
+
 
 // Allow users to deregister (only showing text a user email has been removed)
 
@@ -247,7 +286,7 @@ app.delete('/users/:id',(req,res) => {
 
   if(userIndex !== -1) {
     users.splice(userIndex, 1);
-    res.status(200).json({message: 'User email has been removed'})
+    res.status(200).json({message: 'User has been removed'})
   }
 });
 

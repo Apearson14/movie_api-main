@@ -26,7 +26,106 @@
   <!--table for API Doc-->
   <div>
     <table>
-      
+      <thead>
+        <tr>
+          <th>Request</th>
+          <th>URL</th>
+          <th>HTTP Method</th>
+          <th>Request Body Data Format</th>
+          <th>Response Body Data Format</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Get a list of ALL movies</td>
+          <td>/movies</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object holding an array fo all the movies</td>
+        </tr>
+        <tr>
+          <td>Get data about a single movie by title</td>
+          <td>/movies/:title</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object with data about a single movie. Example:
+            <code>
+              {
+                "title": "Spirited",
+                "director": "Sean Anders",
+                "year": 2022,
+                "genre": "Comedy/Holiday",
+                "movieId": 9
+              }
+            </code>
+          </td>
+        </tr>
+        <tr>
+          <td>Get data about a director by director's name</td>
+          <td>/movies/directors/:directorName</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object holding data about a director. Example:
+            <code>
+              {
+                "name": "Sean Anders",
+                "bio": "Director of Spirited",
+                "birthYear": 1969,
+                "deathYear": null
+              }
+            </code>
+          </td>
+        </tr>
+        <tr>
+          <td>Add a new user</td>
+          <td>/users</td>
+          <td>POST</td>
+          <td>A JSON object holding user data. Example:
+            <code>
+              {
+                "name": "Austin Pearson",
+                "favMovies": "Spirited"
+              }
+            </code>
+          </td>
+          <td>A JSON object holding user data in addtion to an ID Example:
+
+          </td>
+        </tr>
+        <tr>
+          <td>Get data about a genre by genre's name</td>
+          <td>/movies/genres/:name</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object with data about the genre. Example:
+            <code>
+              {
+                "name": "Holiday",
+                "description": "The holiday genre typically revolves around themes related to festive celebrations, family gatherings, and the spirit of various holidays, providing heartwarming and cheerful entertainment."
+              }
+            </code>
+          </td>
+        </tr>
+        <tr>
+          <td>Update User info</td>
+          <td>/users/:id</td>
+          <td>PUT</td>
+          <td>A JSON object holding the user info that should be changed. Example:
+            <code>
+              {
+                "name": String
+              }
+            </code>
+          </td>
+        </tr>
+        <tr>
+          <td>Add Movie to user favorite list</td>
+          <td>/users/:id/movies/:title</td>
+          <td>POST</td>
+          <td>None</td>
+          <td>A JSON oh</td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </body>
