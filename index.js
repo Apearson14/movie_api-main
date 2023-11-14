@@ -9,6 +9,8 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
+mongoose.connect('mongodb://localhost:27017/Movies', { useNewUrlParser: true, useUnifiedTopology: true });
+
 app.use(bodyParser.json());
 app.use(morgan('combined'));
 
