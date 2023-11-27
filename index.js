@@ -11,13 +11,17 @@ const Users = Models.User;
 
 mongoose.connect('mongodb://localhost:27017/Movies', { useNewUrlParser: true, useUnifiedTopology: true });
 
+
+
 app.use(bodyParser.json());
 app.use(morgan('combined'));
 
 
 app.get('/movies', async (req, res) => {
   try {
+    console.log('Before fetching movies');
     const movies = await Movies.find({});
+    console.log('After fetching movies');
     res.json(movies);
   } catch (error) {
     console.error(error);
@@ -25,12 +29,13 @@ app.get('/movies', async (req, res) => {
   }
 });
 
+
 app.get('/', (req, res) => {
   res.send('Welcome to my movie collection!');
 });
 
 // Creating GET route at endpoint "/movies/title" to return JSON object of a single movie
-app.get('/movies/:title', async (req, res) => {
+app.get('/Movies/:title', async (req, res) => {
   try {
     const movie = await Movies.findOne({ title: req.params.title });
 
