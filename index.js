@@ -6,7 +6,7 @@ const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
-const Movies = Models.Movies;
+const Movies = Models.Movie;
 const Users = Models.User;
 
 mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, useUnifiedTopology: true })
