@@ -6,10 +6,17 @@ const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
-const Movies = Models.Movie;
+const Movies = Models.Movies;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/Movies', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch(error => {
+    console.error('Error connecting to MongoDB:', error.message);
+  });
+
 
 
 
@@ -20,7 +27,7 @@ app.use(morgan('combined'));
 app.get('/movies', async (req, res) => {
   try {
     console.log('Before fetching movies');
-    const movies = await Movies.find({});
+    const movies = await Movies.find();
     console.log('After fetching movies');
     res.json(movies);
   } catch (error) {
