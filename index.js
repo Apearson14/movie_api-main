@@ -27,7 +27,7 @@ app.use(morgan('combined'));
 app.get('/movies', async (req, res) => {
   try {
     console.log('Before fetching movies');
-    const movies = await Movies.find();
+    const Movies = Movies.find();
     console.log('After fetching movies');
     res.json(movies);
   } catch (error) {
