@@ -4,9 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const uuid = require('uuid');
 const mongoose = require('mongoose');
-const Models = require('./models.js');
-
-const { Movie, User } = Models; // Corrected import
+const { Movie, User } = require('./models.js'); // Corrected import
 
 mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
