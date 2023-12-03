@@ -1,13 +1,12 @@
 const express = require('express');
 const app = express();
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
-const Movies = Models.Movie;
-const Users = Models.User;
+const { Movie, User } = Models; // Corrected import
 
 mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -17,24 +16,22 @@ mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, 
     console.error('Error connecting to MongoDB:', error.message);
   });
 
-
-
-
 app.use(bodyParser.json());
 app.use(morgan('combined'));
-
 
 app.get('/movies', async (req, res) => {
   try {
     console.log('Before fetching movies');
-    const Movies = Movies.find();
+    const moviesList = await Movie.find(); // Corrected usage
     console.log('After fetching movies');
-    res.json(movies);
+    res.json(moviesList);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 });
+
+
 
 
 app.get('/', (req, res) => {
