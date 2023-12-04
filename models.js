@@ -44,3 +44,5 @@ let User = mongoose.model('User', userSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
+module.exports.Director = Director;
+module.exports.Genre = Genre;

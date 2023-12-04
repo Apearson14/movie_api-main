@@ -17,6 +17,7 @@ mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, 
 app.use(bodyParser.json());
 app.use(morgan('combined'));
 
+// Get a list of all the movies in the collection
 app.get('/movies', async (req, res) => {
   try {
     console.log('Before fetching movies');
@@ -56,7 +57,7 @@ app.get('/Movies/:title', async (req, res) => {
 // Return data about a genre (description) by the name of the movie
 app.get('/movies/genres/:name', async (req, res) => {
   try {
-    const genre = await Movie.findOne({ genre: req.params.name });
+    const genre = await Genre.findOne({ name: req.params.name });
 
     if (!genre) {
       const message = 'Genre with this given title is not found';
@@ -70,10 +71,11 @@ app.get('/movies/genres/:name', async (req, res) => {
   }
 });
 
+
 // Return data about a director(bio, birth year, death year) by name
 app.get('/movies/directors/:directorName', async (req, res) => {
   try {
-    const director = await Movie.findOne({ director: req.params.directorName });
+    const director = await Director.findOne({ name: req.params.directorName });
 
     if (!director) {
       const message = 'Director with the given name not found';
