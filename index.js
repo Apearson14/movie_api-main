@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const uuid = require('uuid');
 const mongoose = require('mongoose');
-const { Movie, User } = require('./models.js'); // Corrected import
+const { Movie, User, Genre, Director } = require('./models.js'); 
 
 mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -20,7 +20,7 @@ app.use(morgan('combined'));
 app.get('/movies', async (req, res) => {
   try {
     console.log('Before fetching movies');
-    const moviesList = await Movie.find(); // Corrected usage
+    const moviesList = await Movie.find(); 
     console.log('After fetching movies');
     res.json(moviesList);
   } catch (error) {
@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 // Creating GET route at endpoint "/movies/title" to return JSON object of a single movie
 app.get('/Movies/:title', async (req, res) => {
   try {
-    const movie = await Movies.findOne({ title: req.params.title });
+    const movie = await Movie.findOne({ title: req.params.title });
 
     if (!movie) {
       const message = 'Movie with the given title not found';
@@ -56,7 +56,7 @@ app.get('/Movies/:title', async (req, res) => {
 // Return data about a genre (description) by the name of the movie
 app.get('/movies/genres/:name', async (req, res) => {
   try {
-    const genre = await Movies.findOne({ genre: req.params.name });
+    const genre = await Movie.findOne({ genre: req.params.name });
 
     if (!genre) {
       const message = 'Genre with this given title is not found';
@@ -73,7 +73,7 @@ app.get('/movies/genres/:name', async (req, res) => {
 // Return data about a director(bio, birth year, death year) by name
 app.get('/movies/directors/:directorName', async (req, res) => {
   try {
-    const director = await Movies.findOne({ director: req.params.directorName });
+    const director = await Movie.findOne({ director: req.params.directorName });
 
     if (!director) {
       const message = 'Director with the given name not found';
