@@ -95,7 +95,6 @@ app.post("/users", async (req, res) => {
   try {
     const newUser = req.body;
 
-    // Create a new user with mongoose.Types.ObjectId()
     const user = new User({
       ...newUser,
       _id: new mongoose.Types.ObjectId(), // Assign a new ObjectId to the user's ID
@@ -118,10 +117,10 @@ app.put('/users/:id', async (req, res) => {
     const { id } = req.params;
     const updatedUser = req.body;
 
-    const user = await Users.findById(id);
+    const user = await User.findById(id);
 
     if (user) {
-      user.name = updatedUser.name;
+      user.username = updatedUser.username;
       await user.save();
       res.status(200).json(user);
     } else {
@@ -138,13 +137,13 @@ app.post('/users/:id/movies/:title', async (req, res) => {
   try {
     const { id, title } = req.params;
 
-    const user = await Users.findById(id);
-    const movie = await Movies.findOne({ title });
+    const user = await User.findById(id);
+    const movie = await Movie.findOne({ title });
 
     if (!user || !movie) {
       return res.status(404).json({ message: "User or movie not found" });
     } else {
-      user.favMovies.push(movie.title);
+      user.FavoriteMovies.push(movie._id); // Assuming FavoriteMovies is the correct array field
       await user.save();
       res.status(200).json({ message: "Movie added to favorites" });
     }
@@ -154,41 +153,46 @@ app.post('/users/:id/movies/:title', async (req, res) => {
   }
 });
 
+
 // Remove a movie from the favorites list of a single user
 
 app.delete('/users/:id/movies/:title', async (req, res) => {
   try {
     const { id, title } = req.params;
 
-    const user = await Users.findById(id);
+    const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: `User with ID ${id} not found` });
     }
 
-    const movieIndex = user.favMovies.indexOf(title);
+    const movieIndex = user.FavoriteMovies.indexOf(title);
 
     if (movieIndex === -1) {
-      return res.status(404).json({ message: "Movie not found in user's favorites" });
+      return res.status(404).json({ message: `Movie '${title}' not found in user's favorites` });
     }
 
-    user.favMovies.splice(movieIndex, 1);
+    user.FavoriteMovies.splice(movieIndex, 1);
     await user.save();
 
-    res.status(200).json({ message: "Movie removed from favorites" });
+    res.status(200).json({ message: `Movie '${title}' removed from favorites` });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: error.message });
   }
 });
 
 
-// Allow users to deregister (only showing text a user email has been removed)
 
+// Allow users to deregister (only showing text a user email has been removed)
 app.delete('/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await Users.findByIdAndRemove(id);
+    const deletedUser = await User.findOneAndDelete({ _id: id });
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
     res.status(200).json({ message: 'User email has been removed' });
   } catch (error) {
@@ -196,6 +200,7 @@ app.delete('/users/:id', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 
 // Error-handling middleware
