@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const uuid = require('uuid');
 const mongoose = require('mongoose');
-const { Movie, User, Genre, Director } = require('./models.js'); 
+const { Movie, User, Genre, Director } = require('./models.js');
+ 
 
 mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -89,24 +90,26 @@ app.get('/movies/directors/:directorName', async (req, res) => {
   }
 });
 
-
+// Allow new users to register
 app.post("/users", async (req, res) => {
   try {
     const newUser = req.body;
 
-    if (newUser.name) {
-      newUser.id = mongoose.Types.ObjectId();
-      const user = new Users(newUser);
-      await user.save();
-      res.status(201).json(newUser);
-    } else {
-      res.status(400).send("name?");
-    }
+    // Create a new user with mongoose.Types.ObjectId()
+    const user = new User({
+      ...newUser,
+      _id: new mongoose.Types.ObjectId(), // Assign a new ObjectId to the user's ID
+    });
+
+    await user.save();
+    res.status(201).json(user);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: error.message });
   }
 });
+
+
 
 
 // Allow users to update their user info (username)
