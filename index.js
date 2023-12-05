@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: true}));
+let auth = require('./auth')(app);
 const morgan = require('morgan');
 const uuid = require('uuid');
 const mongoose = require('mongoose');
 const { Movie, User, Genre, Director } = require('./models.js');
- 
 
 mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
