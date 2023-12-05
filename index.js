@@ -35,8 +35,6 @@ app.get('/movies', async (req, res) => {
 });
 
 
-
-
 app.get('/', (req, res) => {
   res.send('Welcome to my movie collection!');
 });
