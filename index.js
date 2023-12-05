@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: true}));
-let auth = require('./auth')(app);
 const morgan = require('morgan');
 const uuid = require('uuid');
 const mongoose = require('mongoose');
@@ -18,6 +16,8 @@ mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, 
 
 app.use(bodyParser.json());
 app.use(morgan('combined'));
+app.use(bodyParser.urlencoded({ extended: true }));
+let auth = require('./auth')(app);
 
 // Get a list of all the movies in the collection
 app.get('/movies', async (req, res) => {
