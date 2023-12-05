@@ -18,6 +18,8 @@ app.use(bodyParser.json());
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ extended: true }));
 let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
 
 // Get a list of all the movies in the collection
 app.get('/movies', async (req, res) => {
