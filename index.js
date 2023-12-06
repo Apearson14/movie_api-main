@@ -92,7 +92,7 @@ app.get('/movies/directors/:directorName', passport.authenticate('jwt', {session
 });
 
 // Allow new users to register
-app.post("/users", passport.authenticate('jwt', {session: false}), async (req, res) => {
+app.post("/users", async (req, res) => {
   try {
     const newUser = req.body;
 
