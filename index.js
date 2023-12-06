@@ -2,10 +2,12 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const uuid = require('uuid');
 const mongoose = require('mongoose');
+const passport = require('passport');
 const { Movie, User, Genre, Director } = require('./models.js');
+const authRoutes = require('./auth');
 
+// Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
@@ -14,12 +16,16 @@ mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, 
     console.error('Error connecting to MongoDB:', error.message);
   });
 
+// Middleware
 app.use(bodyParser.json());
-app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ extended: true }));
-let auth = require('./auth')(app);
-const passport = require('passport');
+app.use(morgan('combined'));
+
+// Passport configuration
 require('./passport');
+
+// Authentication routes (including /login)
+authRoutes(app);
 
 // Get a list of all the movies in the collection
 app.get('/movies', passport.authenticate('jwt', {session: false}), async (req, res) => {
