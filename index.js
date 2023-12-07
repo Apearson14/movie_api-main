@@ -114,10 +114,13 @@ app.get('/movies/directors/:directorName', passport.authenticate('jwt', {session
 app.post("/users", async (req, res) => {
   try {
     const newUser = req.body;
+    
+    const hashedPassword = await bcrypt.hash(newUser.password, 10); 
 
     const user = new User({
       ...newUser,
-      _id: new mongoose.Types.ObjectId(), // Assign a new ObjectId to the user's ID
+      password: hashedPassword, 
+      _id: new mongoose.Types.ObjectId(),
     });
 
     await user.save();
