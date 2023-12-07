@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const { Movie, User, Genre, Director } = require('./models.js');
+const cors = require('cors');
+app.use(cors());
 const authRoutes = require('./auth');
 
 // Connect to MongoDB
