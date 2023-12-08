@@ -147,8 +147,18 @@ app.post("/users", [
 
 
 // Allow users to update their user info (username)
-app.put('/users/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
-  try {
+app.put('/users/:id', passport.authenticate('jwt', {session: false}),
+[
+  check('username', 'Username is required').isLength({min: 5}),
+  check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()], async (req, res) => {
+   
+    // check the validation object for errors
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+    try {
     const { id } = req.params;
     const updatedUser = req.body;
 
@@ -178,7 +188,7 @@ app.post('/users/:id/movies/:title', passport.authenticate('jwt', {session: fals
     if (!user || !movie) {
       return res.status(404).json({ message: "User or movie not found" });
     } else {
-      user.FavoriteMovies.push(movie._id); // Assuming FavoriteMovies is the correct array field
+      user.FavoriteMovies.push(movie._id); 
       await user.save();
       res.status(200).json({ message: "Movie added to favorites" });
     }
