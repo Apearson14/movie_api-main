@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const { Movie, User, Genre, Director } = require('./models.js');
+const { check, validationResult } = require('express-validator');
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
@@ -111,7 +112,18 @@ app.get('/movies/directors/:directorName', passport.authenticate('jwt', {session
 });
 
 // Allow new users to register
-app.post("/users", async (req, res) => {
+app.post("/users", [
+  check('username', 'Username is required').isLength({min: 5}),
+  check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('password', 'Password is required').not().isEmpty(),
+  check('email', 'Email does not appear to be valid').isEmail()
+],async (req, res) => {
+  // check the validation object for errors
+  let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
   try {
     const newUser = req.body;
     
