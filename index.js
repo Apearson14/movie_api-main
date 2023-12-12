@@ -7,6 +7,7 @@ const passport = require('passport');
 const { Movie, User, Genre, Director } = require('./models.js');
 const { check, validationResult } = require('express-validator');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
 app.use(cors({
