@@ -21,8 +21,16 @@ app.use(cors({
 }));
 const authRoutes = require('./auth');
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, useUnifiedTopology: true })
+// Connect to MongoDB local
+//mongoose.connect('mongodb://localhost:27017/CFmovies', { useNewUrlParser: true, useUnifiedTopology: true })
+  //.then(() => {
+    //console.log('Connected to MongoDB');
+  //})
+  //.catch(error => {
+    //console.error('Error connecting to MongoDB:', error.message);
+  //});
+
+  mongoose.connect('process.env.CONNECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
   })
