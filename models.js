@@ -29,7 +29,7 @@ userSchema.statics.hashPassword = (password) => {
     return becrypt.hashSync(password, 10);
 };
 
-userSchema.statics.hashPassword = (password) => {
+userSchema.statics.validatePassword = (password) => {
     return bcrypt.compareSync(password, this.password);
 };
 
