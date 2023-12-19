@@ -220,7 +220,13 @@ app.delete('/users/:id/movies/:title', passport.authenticate('jwt', {session: fa
       return res.status(404).json({ message: `User with ID ${id} not found` });
     }
 
-    const movieIndex = user.FavoriteMovies.indexOf(title);
+    const movie = await Movie.findOne({ title });
+
+    if (!movie) {
+      return res.status(404).json({ message: `Movie '${title}' not found` });
+    }
+
+    const movieIndex = user.FavoriteMovies.indexOf(movie._id);
 
     if (movieIndex === -1) {
       return res.status(404).json({ message: `Movie '${title}' not found in user's favorites` });
@@ -235,6 +241,7 @@ app.delete('/users/:id/movies/:title', passport.authenticate('jwt', {session: fa
     res.status(500).json({ error: error.message });
   }
 });
+
 
 
 
