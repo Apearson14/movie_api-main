@@ -62,7 +62,7 @@ authRoutes(app);
 // Get a list of all the movies in the collection
 app.get(
   "/movies",
-  passport.authenticate("jwt", { session: false }),
+
   async (req, res) => {
     try {
       console.log("Before fetching movies");
