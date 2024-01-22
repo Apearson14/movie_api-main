@@ -8,7 +8,11 @@ const { Movie, User, Genre, Director } = require("./models.js");
 const { check, validationResult } = require("express-validator");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
-let allowedOrigins = ["http://localhost:8080", "http://testsite.com"];
+let allowedOrigins = [
+  "http://localhost:8080",
+  "http://testsite.com",
+  "http://localhost:1234",
+];
 
 app.use(
   cors({
