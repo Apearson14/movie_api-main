@@ -64,17 +64,21 @@ require("./passport");
 authRoutes(app);
 
 // Get a list of all the movies in the collection
-app.get("/movies", async (req, res) => {
-  try {
-    console.log("Before fetching movies");
-    const moviesList = await Movie.find();
-    console.log("After fetching movies");
-    res.json(moviesList);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      console.log("Before fetching movies");
+      const moviesList = await Movie.find();
+      console.log("After fetching movies");
+      res.json(moviesList);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
   }
-});
+);
 
 app.get("/", (req, res) => {
   res.send("Welcome to my movie collection!");
